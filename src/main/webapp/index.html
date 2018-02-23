@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Survey App</title>
+        <script src="webjars/vue/2.5.13/vue.js"></script>
+        <script src="webjars/marked/0.3.2/marked.js"></script>
+        <script src="webjars/lodash/4.17.4/lodash.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/surveyapp.css">
+    </head>
+    <body>
+        <div id="editor">
+            <textarea :value="input" @input="update"></textarea>
+            <div v-html="compiledMarkdown"></div>
+        </div>
+        <script src="js/surveyapp.js"></script>
+    </body>
+</html>
