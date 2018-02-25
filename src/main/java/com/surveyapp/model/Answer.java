@@ -31,16 +31,16 @@ public class Answer implements Serializable {
 
     @Column(name = "response_date")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date date;
+    private Date date = new Date();
 
     @Column(name = "category")
     private String category;
 
     @Column(name = "likert_response")
-    private Double likertResponse;
+    private Double likertResponse = 0.0;
 
     @Column(name = "text_response")
-    private String textResponse;
+    private String textResponse = "";
 
     public int getId() {
         return id;

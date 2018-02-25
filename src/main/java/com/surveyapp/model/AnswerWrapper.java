@@ -16,7 +16,7 @@ public class AnswerWrapper {
     /**
      * @param answers the answers to set
      */
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
-    }
+//    public void setAnswers(List<Answer> answers) {
+//        this.answers = answers;
+//    }
 }

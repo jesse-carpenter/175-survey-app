@@ -30,9 +30,6 @@ public class Question implements Serializable{
     @Column(name = "likert")
     private boolean likert;
             
-
-//    private Question() {}
-
     public int getId() {
         return id;
     }
