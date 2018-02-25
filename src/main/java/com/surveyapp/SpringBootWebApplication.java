@@ -8,12 +8,17 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
+import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
-@EntityScan(basePackages = {"com.surveyapp.model"} )
+@EntityScan(basePackages = {"com.surveyapp.model"})
 @EnableJpaRepositories(basePackages = {"com.surveyapp.dao"})
 @SpringBootApplication
 public class SpringBootWebApplication extends SpringBootServletInitializer {
@@ -22,14 +27,22 @@ public class SpringBootWebApplication extends SpringBootServletInitializer {
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
         return application.sources(SpringBootWebApplication.class);
     }
-    
-    
 
     public static void main(String[] args) throws Exception {
+//        System.out.println("LOOK HERE !!!!");
+//        ConfigurableApplicationContext applicationContext = new SpringApplicationBuilder(SpringBootWebApplication.class)
+//                .properties("extconfig", "classpath:///surveyapp-config.properties")
+//                .build().run(args);
+//
+//        ConfigurableEnvironment environment = applicationContext.getEnvironment();
+//        System.out.println("Property - " + environment.getProperty("spring.datasource.url"));
+
+//        logger.info(environment.getProperty("cmdb.resource-url"));
         SpringApplication.run(SpringBootWebApplication.class, args);
     }
+
     
-    
+
 //    @Bean
 //	public WebMvcConfigurer corsConfigurer() {
 //		return new WebMvcConfigurerAdapter() {
@@ -39,7 +52,6 @@ public class SpringBootWebApplication extends SpringBootServletInitializer {
 //			}
 //		};
 //}
-
 //    @Bean
 //    public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
 //        return args -> {
@@ -53,5 +65,4 @@ public class SpringBootWebApplication extends SpringBootServletInitializer {
 //            }
 //        };
 //    }
-
 }

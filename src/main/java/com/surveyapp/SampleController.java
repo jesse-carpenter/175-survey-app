@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @EnableAutoConfiguration
+@RequestMapping("/sample")
 public class SampleController {
     
     @Autowired
