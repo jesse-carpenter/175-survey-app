@@ -38,14 +38,14 @@ public class SurveyController {
 
     @Transactional
     @RequestMapping(value = "/questions", method = RequestMethod.GET)
-    public String findByCategory(@RequestParam(value = "cat") String category, @RequestParam(value = "count", required = false) String count) throws JsonProcessingException {
+    public String findByCategory(@RequestParam(value = "cat") String category, @RequestParam(value = "count", required = false) Integer count) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
         String result;
         if (count != null) {
-            Pageable page = new PageRequest(0, 10);
+            Pageable page = new PageRequest(0, count);
             //Convert List of Question objects to JSON
             result = objectMapper.writeValueAsString(qRepository.findByCategory(category, page));
         } else {
