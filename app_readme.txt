@@ -1,6 +1,6 @@
 http://127.0.0.1:8080/surveyViewer/save - accepts post request to save answers with json in following format:
 
-{"answers":[{"textResponse":"red","userId":"testuser1", "questionId":"1","category":"cat1"}, {"textResponse":"yellow","userId":"testuser2", "questionId":"1","category":"cat1"}]}
+{"answers":[{"textResponse":"red","userId":"testuser1", "questionId":"1","category":"cat1"}, {"textResponse":"yellow","userId":"testuser2", "questionId":"2","category":"cat2"}, {"likertResponse":"5.5","userId":"testuser2", "questionId":"3","category":"cat2"}]}
 
 
 
