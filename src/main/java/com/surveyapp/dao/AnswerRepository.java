@@ -7,6 +7,7 @@ package com.surveyapp.dao;
 
 import com.surveyapp.model.Answer;
 import java.util.List;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Repository;
 public interface AnswerRepository extends JpaRepository<Answer, Long> {
 
   List<Answer> findByCategory(String category);
+  
+  List<Answer> findByCategory(String category, Pageable pageable);
 
 }
 

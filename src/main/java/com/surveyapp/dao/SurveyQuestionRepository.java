@@ -5,20 +5,18 @@
  */
 package com.surveyapp.dao;
 
-import com.surveyapp.model.Question;
+import com.surveyapp.model.Answer;
+import com.surveyapp.model.Survey;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface QuestionRepository extends JpaRepository<Question, Long> {
-
-  List<Question> findByCategory(String category);
-  
-  List<Question> findByCategory(String category, Pageable pageable);
-  
-  Question findById(int id);
+public interface SurveyQuestionRepository extends JpaRepository<Survey, Long> {
+    Survey findById(Integer id);
+    
+    Survey findByTitle(String title);
   
 }
 

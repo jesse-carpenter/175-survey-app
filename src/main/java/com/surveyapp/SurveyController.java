@@ -10,8 +10,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.surveyapp.dao.AnswerRepository;
 import com.surveyapp.dao.QuestionRepository;
+import com.surveyapp.dao.SurveyRepository;
 import com.surveyapp.model.Answer;
 import com.surveyapp.model.AnswerWrapper;
+import com.surveyapp.model.Question;
+import com.surveyapp.model.QuestionWrapper;
+import com.surveyapp.model.Survey;
 import java.util.ArrayList;
 import java.util.List;
 import javax.transaction.Transactional;
@@ -26,70 +30,174 @@ import org.springframework.web.bind.annotation.*;
 public class SurveyController {
 
     @Autowired
-    QuestionRepository qRepository;
+    QuestionRepository questionRepo;
 
     @Autowired
-    AnswerRepository aRepository;
+    AnswerRepository answerRepo;
+    
+    @Autowired
+    SurveyRepository surveyRepo;
 
     @RequestMapping("/ping")
     public String heartbeat() {
         return "pong";
     }
 
+    
     @Transactional
-    @RequestMapping(value = "/questions", method = RequestMethod.GET)
-    public String findByCategory(@RequestParam(value = "cat") String category, @RequestParam(value = "count", required = false) String count) throws JsonProcessingException {
+    @RequestMapping(value = "/questions", params = "id", method = RequestMethod.GET)
+    public String findById(@RequestParam Integer id) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        String result;
+        return objectMapper.writeValueAsString(questionRepo.findById(id));
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/questions", params = "category", method = RequestMethod.GET)
+    public String findQuestionsByCategory(@RequestParam String category, @RequestParam(value = "count", required = false) Integer count) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        
         if (count != null) {
-            Pageable page = new PageRequest(0, 10);
+            Pageable page = PageRequest.of(0, count);
             //Convert List of Question objects to JSON
-            result = objectMapper.writeValueAsString(qRepository.findByCategory(category, page));
+            return objectMapper.writeValueAsString(questionRepo.findByCategory(category, page));
         } else {
             //Convert List of Question objects to JSON
-            result = objectMapper.writeValueAsString(qRepository.findByCategory(category));
+            return objectMapper.writeValueAsString(questionRepo.findByCategory(category));
         }
-
-        return result;
     }
+    
+    @Transactional
+    @RequestMapping(value = "/questions", method = RequestMethod.GET)
+    public String findQuestions(@RequestParam(value = "count", required = false) Integer count) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        
+        if (count != null) {
+            Pageable page = PageRequest.of(0, count);
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(questionRepo.findAll(page).getContent());
+        } else {
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(questionRepo.findAll());
+        }
+    }
+    
+    
+    @Transactional
+    @RequestMapping(value = "/answers", params = "category", method = RequestMethod.GET)
+    public String findAnswersByCategory(@RequestParam String category, @RequestParam(value = "count", required = false) Integer count) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+        
+        if (count != null) {
+            Pageable page = PageRequest.of(0, count);
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(answerRepo.findByCategory(category, page));
+        } else {
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(answerRepo.findByCategory(category));
+        }
+    }
+    
 
     @Transactional
-    @RequestMapping("/findall")
-    public String findAll() throws JsonProcessingException {
+    @RequestMapping(value = "/answers", method = RequestMethod.GET)
+    public String findAnswers(@RequestParam(value = "count", required = false) Integer count) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        //Convert List of Question objects to JSON
-        String result = objectMapper.writeValueAsString(qRepository.findAll());
-
-        return result;
+        if (count != null) {
+            Pageable page = PageRequest.of(0, count);
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(answerRepo.findAll(page).getContent());
+        } else {
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(answerRepo.findAll());
+        }
     }
 
+    
     @Transactional
-    @RequestMapping("/answers")
-    public String findAnswers() throws JsonProcessingException {
+    @RequestMapping(value = "/surveys", params = "id", method = RequestMethod.GET)
+    public String findSurveyById(@RequestParam Integer id) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         //Set pretty printing of json
         objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
 
-        //Convert List of Question objects to JSON
-        String result = objectMapper.writeValueAsString(aRepository.findAll());
-
-        return result;
+        return objectMapper.writeValueAsString(surveyRepo.findById(id));
     }
-
+    
     @Transactional
-    @RequestMapping(value = "/save", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @RequestMapping(value = "/surveys", params = "title", method = RequestMethod.GET)
+    public String findSurveyByTitle(@RequestParam String title) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        return objectMapper.writeValueAsString(surveyRepo.findByTitle(title));
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/surveys", method = RequestMethod.GET)
+    public String findSurveys(@RequestParam(value = "count", required = false) Integer count) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        //Set pretty printing of json
+        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+
+        if (count != null) {
+            Pageable page = PageRequest.of(0, count);
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(surveyRepo.findAll(page).getContent());
+        } else {
+            //Convert List of Question objects to JSON
+            return objectMapper.writeValueAsString(surveyRepo.findAll());
+        }
+    }
+    
+    
+    @Transactional
+    @RequestMapping(value = "/saveQuestions", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public List<String> saveQuestions(@RequestBody QuestionWrapper wrapper) {
+        List<String> response = new ArrayList<>();
+        for (Question next : wrapper.getQuestions()) {
+            questionRepo.save(next);
+            response.add("Saved question: " + next.toString());
+        }
+        return response;
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/saveAnswers", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
     @ResponseBody
     public List<String> saveAnswers(@RequestBody AnswerWrapper wrapper) {
         List<String> response = new ArrayList<>();
         for (Answer next : wrapper.getAnswers()) {
-            aRepository.save(next);
+            answerRepo.save(next);
             response.add("Saved answer: " + next.toString());
+        }
+        return response;
+    }
+    
+    @Transactional
+    @RequestMapping(value = "/saveSurvey", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
+    @ResponseBody
+    public List<String> saveSurvey(@RequestBody Survey survey) {
+        surveyRepo.save(survey);
+        
+        List<String> response = new ArrayList<>();
+        response.add(survey.getTitle());
+        for (Question next : survey.getQuestions()) {
+            next.getSurveys().add(survey);
+            response.add("Saved question: " + next.getQuestion());
         }
         return response;
     }

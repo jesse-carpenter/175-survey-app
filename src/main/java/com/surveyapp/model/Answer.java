@@ -13,6 +13,7 @@ import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Temporal;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "answers")
@@ -23,18 +24,19 @@ public class Answer implements Serializable {
     @Column(name = "id")
     private int id;
 
+    @NotNull
     @Column(name = "q_id")
     private int questionId;
 
     @Column(name = "user_id")
-    private String userId;
+    private String userId = "";
 
     @Column(name = "response_date")
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date date = new Date();
 
     @Column(name = "category")
-    private String category;
+    private String category = "";
 
     @Column(name = "likert_response")
     private Double likertResponse = 0.0;
