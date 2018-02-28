@@ -1,4 +1,4 @@
-surveyapp_build.sql (DB create script) and surveyapp-config.properties can also be foune in (SurveyApp directory)
+surveyapp_build.sql (DB create script) and surveyapp-config.properties can also be found in SurveyApp directory
 
 
 DB Configuration
