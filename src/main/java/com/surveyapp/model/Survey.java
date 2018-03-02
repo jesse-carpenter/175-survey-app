@@ -8,31 +8,29 @@ package com.surveyapp.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.ManyToMany;
-import javax.persistence.Temporal;
-import javax.validation.constraints.NotNull;
 
 @Entity
 public class Survey implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private int id;
 
     @Column(name = "title", nullable = false)
     private String title;
 
+
     @ManyToMany(mappedBy = "surveys", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Question> questions = new ArrayList<>();
 
+    
     private Survey() {
     }
 
@@ -56,7 +54,7 @@ public class Survey implements Serializable {
         this.title = title;
     }
 
-    public Long getId() {
+    public int getId() {
         return id;
     }
 
@@ -76,5 +74,11 @@ public class Survey implements Serializable {
         for (Question question : new ArrayList<>(questions)) {
             removeQuestion(question);
         }
+    }
+    
+    @Override
+    public String toString() {
+        return String.format("Question[id=%d, title='%s']",
+                id, title);
     }
 }

@@ -7,10 +7,8 @@ package com.surveyapp.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.ArrayList;
 import javax.persistence.CascadeType;
@@ -21,26 +19,20 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "questions")
 public class Question implements Serializable{
     
     @GeneratedValue
     @Id
-    @Column(name = "id")
     private int id;
     
     @NotNull
-    @Column(name = "question")
     private String question;
 
     @NotNull
-    @Column(name = "category")
     private String category;
     
-    @Column(name = "likert")
     private boolean likert = true;
     
-    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(name = "Survey_Question",
         joinColumns = {
@@ -61,7 +53,8 @@ public class Question implements Serializable{
     public int getId() {
         return id;
     }
-
+    
+    @JsonIgnore
     public List<Survey> getSurveys() {
         return surveys;
     }
@@ -96,9 +89,8 @@ public class Question implements Serializable{
     
     @Override
     public String toString() {
-            return question;
+        return String.format("Question[id=%d, question='%s', category='%s', likert='%s']",
+                id, question, category, likert);
     }
-
-    
 }
 

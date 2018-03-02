@@ -5,10 +5,8 @@
  */
 package com.surveyapp.model;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.GeneratedValue;
@@ -16,32 +14,24 @@ import javax.persistence.Temporal;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "answers")
 public class Answer implements Serializable {
 
     @GeneratedValue
     @Id
-    @Column(name = "id")
     private int id;
 
     @NotNull
-    @Column(name = "q_id")
     private int questionId;
 
-    @Column(name = "user_id")
     private String userId = "";
 
-    @Column(name = "response_date")
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date date = new Date();
+    private Date responseDate = new Date();
 
-    @Column(name = "category")
     private String category = "";
 
-    @Column(name = "likert_response")
     private Double likertResponse = 0.0;
 
-    @Column(name = "text_response")
     private String textResponse = "";
 
     public int getId() {
@@ -69,11 +59,11 @@ public class Answer implements Serializable {
     }
 
     public Date getDate() {
-        return date;
+        return responseDate;
     }
 
     public void setDate(Date date) {
-        this.date = date;
+        this.responseDate = date;
     }
 
     public String getCategory() {
@@ -102,7 +92,7 @@ public class Answer implements Serializable {
 
     @Override
     public String toString() {
-        return String.format("Employee[id=%d, questionId='%s', userId='%s', date='%s', category='%s', likertResponse='%s', textResponse='%s']",
-                id, questionId, userId, date, category, likertResponse, textResponse);
+        return String.format("Answer[id=%d, questionId='%s', userId='%s', date='%s', category='%s', likertResponse='%s', textResponse='%s']",
+                id, questionId, userId, responseDate, category, likertResponse, textResponse);
     }
 }
